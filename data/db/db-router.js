@@ -12,7 +12,7 @@ const {
 
 const router = express.Router();
 
-router.post("/api/posts", (req, res) => {
+router.post("/", (req, res) => {
   const newPost = {
     title: req.body.title,
     contents: req.body.contents
@@ -36,7 +36,7 @@ router.post("/api/posts", (req, res) => {
     });
 });
 
-router.post("/api/posts/:id/comments", (req, res) => {
+router.post("/:id/comments", (req, res) => {
   const { id } = req.params;
   const { text } = req.body;
 
@@ -63,7 +63,7 @@ router.post("/api/posts/:id/comments", (req, res) => {
     });
 });
 
-router.get("/api/posts", (req, res) => {
+router.get("/", (req, res) => {
   find()
     .then(posts => {
       res.status(200).json(posts);
@@ -75,7 +75,7 @@ router.get("/api/posts", (req, res) => {
     });
 });
 
-router.get("/api/posts/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   const { id } = req.params;
   findById(id)
     .then(post => {
@@ -94,7 +94,7 @@ router.get("/api/posts/:id", (req, res) => {
     });
 });
 
-router.get("/api/posts/:id/comments", (req, res) => {
+router.get("/:id/comments", (req, res) => {
   const { id } = req.params;
   findPostComments(id)
     .then(comments => {
@@ -113,12 +113,13 @@ router.get("/api/posts/:id/comments", (req, res) => {
     });
 });
 
-router.delete("/api/posts/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   const { id } = req.params;
   remove(id)
     .then(deleted => {
       if (deleted) {
         res.status(202).json(`Post got deleted`);
+        deleted;
       } else {
         res.status(404).json({
           message: "The post with the specified ID does not exist."
